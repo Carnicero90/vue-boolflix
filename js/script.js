@@ -29,6 +29,13 @@ var app = new Vue({
                 // TODO: sdoppiare il tutto in due .get e rimuovere di conseguenza filter
                 a = response.data.results.filter((item) => !item.hasOwnProperty('gender'));
                this.result = [...a];
+               this.result.forEach(element => {
+                   axios.get(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&append_to_response=credits`)
+                   .then(cast => {
+                       if(cast.data.credits.cast) {element.cast = cast.data.credits.cast.slice(0,5)};
+                        if (cast.data.genres) {element.genres = cast.data.genres}
+                    })
+               });
             })
         },
         getFlag(lang) {

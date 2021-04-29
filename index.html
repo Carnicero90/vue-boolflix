@@ -51,6 +51,11 @@
                             <span class="vote" v-for="n in Math.ceil(item.vote_average/2)"><i class="fas fa-star"></i></span>
                             <span v-for="n in 5 - Math.ceil(item.vote_average/2)"><i class="fas fa-star"></i></span>
                         </li>
+                        <li><h3>cast</h3>
+                        <ul><li v-for="actor in item.cast">{{ actor.name }}</li></ul></li>
+                        <li><h3>genres</h3>
+                            <ul><li v-for="genre in item.genres">{{ genre.name }}</li></ul></li>
+                        
                     </ul>
                     <div v-show="selectedIndex!==index" class="layover">
                         <img :src=`https://image.tmdb.org/t/p/w342/${item.poster_path}` alt="">
