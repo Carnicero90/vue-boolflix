@@ -8,7 +8,7 @@ var app = new Vue({
     data: {
         test: 'hello Template',
         queryString: '',
-        result: '',
+        result: [],
         flags:
             {'en': 'us-US.webp',
             'it': 'it_IT.webp',
@@ -17,8 +17,9 @@ var app = new Vue({
     },
     methods: {
         searchMovies(string) {
-           const res = queryTemplate('movie', string);
+           const res = queryTemplate('multi', string);
             this.queryString = '';
+            this.result = [];
             axios.get(res)
             .then((response) => this.result = response.data.results)
         },
