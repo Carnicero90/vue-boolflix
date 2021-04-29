@@ -9,6 +9,7 @@ var app = new Vue({
         test: 'hello Template',
         queryString: '',
         result: [],
+        selectedIndex: false,
         flags:
             {'en': 'us-US.webp',
             'it': 'it_IT.webp',
@@ -25,6 +26,9 @@ var app = new Vue({
         },
         getFlag(lang) {
             return this.flags[lang] || this.flags['default']
+        },
+        showContent(index) {
+            document.getElementsByClassName('layover')
         }
     },
     created() { }

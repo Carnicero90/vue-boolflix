@@ -32,6 +32,19 @@ header .logo {
    margin-right: 20px;
    width: 13%;
    margin-bottom: 20px;
+   position: relative;
+}
+.movie .layover {
+   position: absolute;
+   height: 100%;
+   width: 100%;
+   top: 0;
+   left: 0;
+}
+.movie .layover img {
+   /* per ora le stretcho */
+   height: 100%;
+   width: 100%;
 }
 /*    -------------------- */
 .flag {
