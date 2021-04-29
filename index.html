@@ -44,7 +44,11 @@
                         <li>{{ item.title || item.name }}</li>
                         <li>{{ item.original_title || item.original_name }}</li>
                         <li><img :src=`img/${getFlag(item.original_language)}` alt=""></li>
-                        <li>{{ item.vote_average }}</li>
+                        <!-- qua faccio ancora col parseInt e arrotondo quindi per difetto, poi miglioro -->
+                        <li>
+                            <span class="vote" v-for="n in parseInt(item.vote_average/2)"><i class="fas fa-star"></i></span>
+                            <span v-for="n in 5 - parseInt(item.vote_average/2)"><i class="fas fa-star"></i></span>
+                        </li>
                     </ul>
                 </li>
             </ul>
