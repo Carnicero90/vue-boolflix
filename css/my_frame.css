@@ -1,0 +1,133 @@
+/* RESETS
+   ======================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+li {
+    list-style-type: none;
+}
+
+button {
+    color: inherit;
+    background-color: transparent;
+    border: none;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+/* ======================= */
+
+/* FLOATERS
+   ======================= */
+
+.floater {
+    float: left;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* ======================= */
+
+/* FLEXERS
+   ======================= */
+
+.flexer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flexer.wrap {
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.flexer.col {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.flexer.center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flexer.end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+}
+
+.flexer.between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.flexer.around {
+    justify-content: space-around;
+}
+
+.flexer.center-cross {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.no-shrink {
+    flex-shrink: 0;
+}
+
+/* ======================= */
+
+/* TEXT_PROPERTIES
+   ======================= */
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.upper {
+    text-transform: uppercase;
+}
+
+/* ======================= */
+
+/* MISC
+   ======================= */
+
+.list-inline li {
+    /* questo poi sarebbe da rivedere perché potrebbe 
+    darmi problemi di gerarchia */
+    display: inline-block;
+}
+
+.rounded {
+    border-radius: 50%;
+}
+
+/* ======================= */

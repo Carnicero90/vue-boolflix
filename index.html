@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- axios version 0.21.1 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="css/my_frame.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- VUE CONTAINER -->
+    <div id="root">
+        <!-- HEADER -->
+        <header class="flexer between center-cross">
+            <!-- div.logo -->
+            <div class="logo">
+                <img src="" alt="logo Boolfix">
+            </div>
+            <!-- END div.logo -->
+            <!-- div.search -->
+            <div class="search">
+                <input v-model="queryString" @keyup.enter="searchMovies(queryString)" type="text">
+                <button>
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <!-- END div.search -->
+        </header>
+        <!-- END HEADER -->
+
+        <!-- MAIN -->
+        <main class="flexer center">
+            <ul class="flexer wrap">
+                <li v-for="item in result" class="movie">
+                    <ul>
+                        <li>{{ item.title }}</li>
+                        <li>{{ item.original_title }}</li>
+                        <li>{{ item.original_language }}</li>
+                        <li>{{ item.vote_average }}</li>
+                    </ul>
+                </li>
+            </ul>
+
+        </main>
+        <!-- END MAIN -->
+
+        <!-- FOOTER -->
+        <!-- END FOOTER -->
+    </div>
+    <!-- END VUE CONTAINER -->
+
+    <!-- vue.js last 2.* version -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- local script -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>
