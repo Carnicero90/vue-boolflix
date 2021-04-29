@@ -1,6 +1,8 @@
 /* COMMON
    ======================= */
-
+body {
+   background-color: grey;
+}
 /* ======================= */
 
 /* HEADER
@@ -15,6 +17,7 @@ header {
       -------------------- */
 header .logo {
    color: red;
+   font-size: 1.3rem;
 }
 /*    -------------------- */
 
@@ -37,6 +40,7 @@ header .logo {
    margin-bottom: 20px;
    position: relative;
    height: 400px;
+   border: 2px solid white;
 }
 .movie .layover {
    position: absolute;
@@ -45,6 +49,8 @@ header .logo {
    top: 0;
    left: 0;
    background-color: red;
+   border: 2px solid white;
+
 }
 .movie .layover img {
    /* per ora le stretcho */

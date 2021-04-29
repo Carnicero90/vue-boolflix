@@ -22,7 +22,7 @@
         <header class="flexer between center-cross">
             <!-- div.logo -->
             <div class="logo">
-                <img src="" alt="logo Boolfix">
+                <span>Boolfix</span>
             </div>
             <!-- END div.logo -->
             <!-- div.search -->
@@ -37,8 +37,8 @@
         <!-- END HEADER -->
 
         <!-- MAIN -->
-        <main class="flexer center">
-            <ul class="movie-list flexer wrap" v-if="result">
+        <main class="flexer">
+            <ul class="movie-list flexer wrap center" v-if="result">
                 <li v-for="(item, index) in result" @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
                     <ul>
                         <li>{{ item.title || item.name }}</li>
@@ -46,11 +46,11 @@
                         <li><img class="flag" :src=`img/${getFlag(item.original_language)}` alt=""></li>
                         <!-- qua faccio ancora col parseInt e arrotondo quindi per difetto, poi miglioro -->
                         <li>{{item.vote_average}}</li>
-                        <!-- <li>
-                            <span class="vote" v-if="parseInt(item.vote_average/2)>0" v-for="n in parseInt(item.vote_average/2)"><i class="fas fa-star"></i></span>
-                            <span v-for="n in 5 - parseInt(item.vote_average/2)"><i class="fas fa-star"></i></span>
-                        </li> -->
-                        <!-- Buggato se voto è zero, qua ci metto una funzione -->
+                        <li v-for="n in 0">ciao</li>
+                        <li>
+                            <span class="vote" v-for="n in Math.ceil(item.vote_average/2)"><i class="fas fa-star"></i></span>
+                            <span v-for="n in 5 - Math.ceil(item.vote_average/2)"><i class="fas fa-star"></i></span>
+                        </li>
                     </ul>
                     <div v-show="selectedIndex!==index" class="layover">
                         <img :src=`https://image.tmdb.org/t/p/w342/${item.poster_path}` alt="">

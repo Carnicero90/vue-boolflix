@@ -8,7 +8,8 @@ var app = new Vue({
     data: {
         a: '',
         queryString: '',
-        result: '',
+        result: [],
+        result1: [],
         selectedIndex: false,
         flags:
             {'en': 'us-US.webp',
@@ -18,17 +19,16 @@ var app = new Vue({
     },
     methods: {
         searchMovies(string) {
-          let res = queryTemplate('multi', string);
+        //   let res = queryTemplate('multi', string);
             this.queryString = '';
-            // this.result = [];
-            // while (this.result.length < 20)  {}
-            axios.get(res)
+            let movies = [];
+            axios.get(queryTemplate('movie', string))
             .then((response) => {
-                // filtra risultati per escludere people
-                a = response.data.results.filter((item) => !item.hasOwnProperty('gender'))
-                console.log(a)
-               this.result = [...a]
-                // this.result.push(a)
+                a=response.data.results;
+                console.log(a);
+                // TODO: sdoppiare il tutto in due .get e rimuovere di conseguenza filter
+                a = response.data.results.filter((item) => !item.hasOwnProperty('gender'));
+               this.result = [...a];
             })
         },
         getFlag(lang) {
