@@ -21,7 +21,7 @@ var app = new Vue({
     methods: {
         searchMovies(string) {
         //   let res = queryTemplate('multi', string);
-            this.genres = '';
+            this.selectedGen = '';
             this.queryString = '';
             let movies = [];
             axios.get(queryTemplate('movie', string))
