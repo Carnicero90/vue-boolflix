@@ -7,10 +7,11 @@ var app = new Vue({
     el: '#root',
     data: {
         a: '',
+        selectedGen: '',
         queryString: '',
         result: [],
-        result1: [],
         selectedIndex: false,
+        genres: ['Documentary', 'Drama'],
         flags:
             {'en': 'us-US.webp',
             'it': 'it_IT.webp',
@@ -20,6 +21,7 @@ var app = new Vue({
     methods: {
         searchMovies(string) {
         //   let res = queryTemplate('multi', string);
+            this.genres = '';
             this.queryString = '';
             let movies = [];
             axios.get(queryTemplate('movie', string))
@@ -33,7 +35,7 @@ var app = new Vue({
                    axios.get(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&append_to_response=credits`)
                    .then(cast => {
                        if(cast.data.credits.cast) {element.cast = cast.data.credits.cast.slice(0,5)};
-                        if (cast.data.genres) {element.genres = cast.data.genres}
+                        if (cast.data.genres) {element.genres = cast.data.genres.map(item => item.name)}
                     })
                });
             })
@@ -41,8 +43,14 @@ var app = new Vue({
         getFlag(lang) {
             return this.flags[lang] || this.flags['default']
         },
-        showContent(index) {
-            document.getElementsByClassName('layover')
+        selectGen(gen) {
+            if (this.selectedGen=="") {
+                return true
+            }
+            else {
+                return gen.includes(this.selectedGen)
+            }
+
         }
     },
     created() { }

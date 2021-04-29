@@ -31,6 +31,10 @@
                 <button>
                     <i class="fas fa-search"></i>
                 </button>
+                <select name="" id="" v-model="selectedGen">
+                    <option value="Drama">Drama</option>
+                    <option value="Comedy">Comedy</option>
+                </select>
             </div>
             <!-- END div.search -->
         </header>
@@ -39,7 +43,7 @@
         <!-- MAIN -->
         <main class="flexer">
             <ul class="movie-list flexer wrap center" v-if="result">
-                <li v-for="(item, index) in result" @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
+                <li v-for="(item, index) in result" v-if="selectGen(item.genres)" @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
                     <ul>
                         <li>{{ item.title || item.name }}</li>
                         <li>{{ item.original_title || item.original_name }}</li>
@@ -54,7 +58,7 @@
                         <li><h3>cast</h3>
                         <ul><li v-for="actor in item.cast">{{ actor.name }}</li></ul></li>
                         <li><h3>genres</h3>
-                            <ul><li v-for="genre in item.genres">{{ genre.name }}</li></ul></li>
+                            <ul><li v-for="genre in item.genres">{{ genre }}</li></ul></li>
                         
                     </ul>
                     <div v-show="selectedIndex!==index" class="layover">
