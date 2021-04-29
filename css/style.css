@@ -44,6 +44,7 @@ header .logo {
    width: 100%;
    top: 0;
    left: 0;
+   background-color: red;
 }
 .movie .layover img {
    /* per ora le stretcho */

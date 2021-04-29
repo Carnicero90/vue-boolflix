@@ -6,9 +6,9 @@ const queryTemplate = function(type, args) {
 var app = new Vue({
     el: '#root',
     data: {
-        test: 'hello Template',
+        a: '',
         queryString: '',
-        result: [],
+        result: '',
         selectedIndex: false,
         flags:
             {'en': 'us-US.webp',
@@ -18,11 +18,17 @@ var app = new Vue({
     },
     methods: {
         searchMovies(string) {
-           const res = queryTemplate('multi', string);
+          let res = queryTemplate('multi', string);
             this.queryString = '';
-            this.result = [];
+            // this.result = [];
+            // while (this.result.length < 20)  {}
             axios.get(res)
-            .then((response) => this.result = response.data.results)
+            .then((response) => {
+                a = response.data.results
+                console.log(a)
+               this.result = [...a]
+                // this.result.push(a)
+            })
         },
         getFlag(lang) {
             return this.flags[lang] || this.flags['default']
