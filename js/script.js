@@ -24,7 +24,8 @@ var app = new Vue({
             // while (this.result.length < 20)  {}
             axios.get(res)
             .then((response) => {
-                a = response.data.results
+                // filtra risultati per escludere people
+                a = response.data.results.filter((item) => !item.hasOwnProperty('gender'))
                 console.log(a)
                this.result = [...a]
                 // this.result.push(a)
