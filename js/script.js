@@ -9,6 +9,11 @@ var app = new Vue({
         test: 'hello Template',
         queryString: '',
         result: '',
+        flags:
+            {'en': 'us-US.webp',
+            'it': 'it_IT.webp',
+            'default': 'Flag_of_Genoa.svg.png'}
+        
     },
     methods: {
         searchMovies(string) {
@@ -16,6 +21,9 @@ var app = new Vue({
             this.queryString = '';
             axios.get(res)
             .then((response) => this.result = response.data.results)
+        },
+        getFlag(lang) {
+            return this.flags[lang] || this.flags['default']
         }
     },
     created() { }
