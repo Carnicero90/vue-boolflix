@@ -32,8 +32,7 @@
                     <i class="fas fa-search"></i>
                 </button>
                 <select name="" id="" v-model="selectedGen">
-                    <option value="Drama">Drama</option>
-                    <option value="Comedy">Comedy</option>
+                    <option v-for="gen in genres" :value="gen">{{ gen }}</option>
                 </select>
             </div>
             <!-- END div.search -->

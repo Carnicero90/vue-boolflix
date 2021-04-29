@@ -53,7 +53,13 @@ var app = new Vue({
 
         }
     },
-    created() { }
+    mounted() {
+        axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`)
+        .then(lastGen => {
+            b = lastGen.data.genres;
+            // versione pigra, che prende tutti i generi e non quelli presenti solo nei film selezionati (quindi da rifare)
+            this.genres = b.map(item => item.name)})
+     }
 })
 
 
