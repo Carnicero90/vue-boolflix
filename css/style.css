@@ -23,6 +23,9 @@ header .logo {
 
 /* MAIN
    ======================= */
+   .movie-list {
+      width: 100%;
+   }
 
 /*    * movie
       -------------------- */
@@ -30,9 +33,10 @@ header .logo {
    background-color: lightcoral;
    padding: 10px;
    margin-right: 20px;
-   width: 13%;
+   width: 250px;
    margin-bottom: 20px;
    position: relative;
+   height: 400px;
 }
 .movie .layover {
    position: absolute;

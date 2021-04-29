@@ -38,8 +38,8 @@
 
         <!-- MAIN -->
         <main class="flexer center">
-            <ul class="flexer wrap">
-                <li v-for="(item, index) in result" v-if="!item.gender" @mouseenter="selectedIndex = index" class="movie">
+            <ul class="movie-list flexer wrap">
+                <li v-for="(item, index) in result" v-if="!item.gender" @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
                     <ul>
                         <li>{{ item.title || item.name }}</li>
                         <li>{{ item.original_title || item.original_name }}</li>
