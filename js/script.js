@@ -23,14 +23,10 @@ var app = new Vue({
         //   let res = queryTemplate('multi', string);
             this.selectedGen = '';
             this.queryString = '';
-            let movies = [];
             axios.get(queryTemplate('movie', string))
             .then((response) => {
-                a=response.data.results;
-                console.log(a);
                 // TODO: sdoppiare il tutto in due .get e rimuovere di conseguenza filter
-                a = response.data.results.filter((item) => !item.hasOwnProperty('gender'));
-               this.result = [...a];
+               this.result = response.data.results.filter((item) => !item.hasOwnProperty('gender'));
                this.result.forEach(element => {
                    axios.get(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&append_to_response=credits`)
                    .then(cast => {
