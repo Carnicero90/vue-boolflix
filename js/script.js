@@ -1,15 +1,20 @@
 const API_KEY = 'e987c9b3ef365c98fc145ab54f1b9e46';
-const queryTemplate = function (type, args) {
-    return `https://api.themoviedb.org/3/search/${type}?api_key=${API_KEY}&query=${args}`
-};
-const queryTemplate2 = function (type, args) {
-    return `https://api.themoviedb.org/3/search/${type}?api_key=${API_KEY}&query=${args}`
-}
+const DOMAIN = 'https://api.themoviedb.org/3/';
 
 var app = new Vue({
     el: '#root',
     data: {
-        a: [],
+        // API info and "methods"
+        movieDBqueries: {
+            search: function (type, args) {
+                return `${DOMAIN}search/${type}?api_key=${API_KEY}&query=${args}`
+            },
+            genres: function (type) {
+                return `${DOMAIN}genre/${type}/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`
+            },
+            byId: function (id, args) { 
+                return `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}${args}`},
+        },
         selectedGen: '',
         queryString: '',
         resCopy: [],
@@ -22,15 +27,18 @@ var app = new Vue({
                 name: 'FILM',
                 genres: [],
                 collapsed: false,
-                queryStr: 'movie'
+                queryStr: 'movie',
+                searchResult: []
             },
             'tv': {
                 name: 'SERIE TV',
                 genres: [],
                 collapsed: false,
-                queryStr: 'tv'
+                queryStr: 'tv',
+                searchResult: []
             }
         },
+      
         selectedIndex: false,
         movieGenres: [],
         tvGenres: [],
@@ -43,44 +51,34 @@ var app = new Vue({
             'it': 'it_IT.webp',
             'default': 'Flag_of_Genoa.svg.png'
         },
-        visibleTvRange: [0, 4]
 
     },
     methods: {
-
-        searchContents(string) {
-            //   let res = queryTemplate('multi', string);
-            this.selectedGen = '';
-            // this.queryString = '';
-            axios.get(queryTemplate('movie', string))
-                .then((response) => {
-                    const answer = response.data.results;
-                    answer.forEach(element => {
-                        axios.get(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&append_to_response=credits`)
-                            .then(cast => {
-                                if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
-                                if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
-                            })
-                    });
-                    this.result.movies = answer;
-
+        searchContent(type, string) {
+            axios.get(this.movieDBqueries.search(this.types[type].queryStr, string))
+            .then((response) => {
+                const answer = response.data.results;
+                answer.forEach(element => {
+                    axios.get(this.movieDBqueries.byId(element.id, '&append_to_response=credits'))
+                        .then(cast => {
+                            if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
+                            if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
+                        })
                 });
-            axios.get(queryTemplate('tv', string))
-                .then((response) => {
-                    const answer = response.data.results;
-                    answer.forEach(element => {
-                        axios.get(`https://api.themoviedb.org/3/tv/${element.id}?api_key=${API_KEY}&append_to_response=credits`)
-                            .then(cast => {
-                                if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
-                                if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
-                            });
+                // this.types[type].searchResult = answer;
+                //#TODO: migrare tutto in types
+                this.result[type] = answer;
 
-                    });
-                    this.result.tv = answer;
-
-                });
-            this.resCopy = { ...this.result }
+            });      
         },
+        searchAll(string) {
+            this.selectedGen = '';
+            this.searchContent('movies', string);
+            this.searchContent('tv', string);
+            this.resCopy = {...this.result};
+        },
+
+
         getFlag(lang) {
             return this.flags[lang] || this.flags['default']
         },
@@ -102,18 +100,18 @@ var app = new Vue({
             }
         },
         getGenres(kind) {
-            axios.get(`https://api.themoviedb.org/3/genre/${this.types[kind].queryStr}/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`)
-            .then(response => {    
-                this.types[kind].genres =  response.data.genres.map(item => item.name);
-            });
+            axios.get(this.movieDBqueries.genres(this.types[kind].queryStr))
+                .then(response => {
+                    this.types[kind].genres = response.data.genres.map(item => item.name);
+                });
         }
 
     },
     mounted() {
-        this.searchContents('il sorpasso');
+        this.searchAll('il sorpasso');
         this.getGenres('movies');
         this.getGenres('tv');
-    
+
     }
 })
 
