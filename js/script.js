@@ -6,13 +6,14 @@ const queryTemplate = function (type, args) {
 var app = new Vue({
     el: '#root',
     data: {
-        a: '',
         selectedGen: '',
         queryString: '',
         result: [],
+        resCopy: [],
         selectedIndex: false,
         movieGenres: [],
         tvGenres: [],
+        myList: [],
         flags:
         {
             'en': 'us-US.webp',
@@ -30,6 +31,7 @@ var app = new Vue({
                 .then((response) => {
                     // TODO: sdoppiare il tutto in due .get e rimuovere di conseguenza filter
                     this.result = response.data.results.filter((item) => !item.hasOwnProperty('gender'));
+                    this.resCopy = [...this.result],
                     this.result.forEach(element => {
                         axios.get(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&append_to_response=credits`)
                             .then(cast => {
@@ -50,6 +52,13 @@ var app = new Vue({
                 return gen.includes(this.selectedGen)
             }
 
+        },
+        addToMyList(item) {
+            if (!this.myList.includes(item)) {
+                this.myList.push(item)
+            } else {
+                this.myList.splice(this.myList.indexOf(item),1)
+            }
         }
     },
     mounted() {

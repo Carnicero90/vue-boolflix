@@ -18,6 +18,10 @@
    padding: 5px;
 }
 
+.added {
+   color: red;
+}
+
 .gradient-text {
    background-color: grey;
    margin-left: 50px;
