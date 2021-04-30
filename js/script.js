@@ -1,11 +1,15 @@
 const API_KEY = 'e987c9b3ef365c98fc145ab54f1b9e46';
 const queryTemplate = function (type, args) {
     return `https://api.themoviedb.org/3/search/${type}?api_key=${API_KEY}&query=${args}`
+};
+const queryTemplate2 = function (type, args) {
+    return `https://api.themoviedb.org/3/search/${type}?api_key=${API_KEY}&query=${args}`
 }
 
 var app = new Vue({
     el: '#root',
     data: {
+        a: [],
         selectedGen: '',
         queryString: '',
         resCopy: [],
@@ -14,10 +18,18 @@ var app = new Vue({
             'tv': []
         },
         types: {
-            'movies': {name: 'FILM',
-        collapsed: false},
-            'tv': {name: 'SERIE TV',
-            collapsed: false}
+            'movies': {
+                name: 'FILM',
+                genres: [],
+                collapsed: false,
+                queryStr: 'movie'
+            },
+            'tv': {
+                name: 'SERIE TV',
+                genres: [],
+                collapsed: false,
+                queryStr: 'tv'
+            }
         },
         selectedIndex: false,
         movieGenres: [],
@@ -35,6 +47,7 @@ var app = new Vue({
 
     },
     methods: {
+
         searchContents(string) {
             //   let res = queryTemplate('multi', string);
             this.selectedGen = '';
@@ -65,7 +78,8 @@ var app = new Vue({
                     });
                     this.result.tv = answer;
 
-                })
+                });
+            this.resCopy = { ...this.result }
         },
         getFlag(lang) {
             return this.flags[lang] || this.flags['default']
@@ -81,27 +95,25 @@ var app = new Vue({
         },
         addToMyList(item, kind) {
             if (!this.myList[kind].includes(item)) {
-                this.myList[kind].push(item)
+                this.myList[kind].push(item);
+                this.result[kind]
             } else {
                 this.myList[kind].splice(this.myList[kind].indexOf(item), 1)
             }
+        },
+        getGenres(kind) {
+            axios.get(`https://api.themoviedb.org/3/genre/${this.types[kind].queryStr}/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`)
+            .then(response => {    
+                this.types[kind].genres =  response.data.genres.map(item => item.name);
+            });
         }
+
     },
     mounted() {
         this.searchContents('il sorpasso');
-        axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`)
-            .then(lastGen => {
-                const b = lastGen.data.genres;
-                // versione pigra, che prende tutti i generi e non quelli presenti solo nei film selezionati (quindi da rifare)
-                this.movieGenres = b.map(item => item.name)
-            });
-        axios.get(`https://api.themoviedb.org/3/genre/tv/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`)
-            .then(lastGen => {
-                const b = lastGen.data.genres;
-                // versione pigra, che prende tutti i generi e non quelli presenti solo nei film selezionati (quindi da rifare)
-                this.tvGenres = b.map(item => item.name)
-            });
-        this.resCopy = { ...this.result };
+        this.getGenres('movies');
+        this.getGenres('tv');
+    
     }
 })
 

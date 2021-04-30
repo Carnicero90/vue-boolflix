@@ -9,6 +9,7 @@
    padding: 10px 5%;
    color: white;
    text-transform: uppercase;
+   border-bottom: 1px solid lightgray;
 }
 
 .left-nav li:hover {
