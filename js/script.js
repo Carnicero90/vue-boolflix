@@ -14,8 +14,10 @@ var app = new Vue({
             'tv': []
         },
         types: {
-            'movies': 'FILM',
-            'tv': 'SERIE TV'
+            'movies': {name: 'FILM',
+        collapsed: false},
+            'tv': {name: 'SERIE TV',
+            collapsed: false}
         },
         selectedIndex: false,
         movieGenres: [],
@@ -23,13 +25,13 @@ var app = new Vue({
         myList: {
             'movies': [],
             'tv': []
-        },        flags:
-        {
+        },
+        flags: {
             'en': 'us-US.webp',
             'it': 'it_IT.webp',
             'default': 'Flag_of_Genoa.svg.png'
         },
-        visibleTvRange: [0,4]
+        visibleTvRange: [0, 4]
 
     },
     methods: {
@@ -99,7 +101,7 @@ var app = new Vue({
                 // versione pigra, che prende tutti i generi e non quelli presenti solo nei film selezionati (quindi da rifare)
                 this.tvGenres = b.map(item => item.name)
             });
-        this.resCopy = {...this.result};
+        this.resCopy = { ...this.result };
     }
 })
 

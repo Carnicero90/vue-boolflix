@@ -69,8 +69,8 @@
 
         <main class="flexer col">
             <div v-for="(value, name) in result" v-if="value.length>0">
-                <div class="sect-header flexer between"><span>{{types[name]}}</span> <i class="fas fa-chevron-down"></i></div>
-                <ul class="movie-list flexer center wrap">
+                <div class="sect-header flexer between"><span>{{types[name].name}}</span> <i class="fas fa-chevron-down" @click="types[name].collapsed=!types[name].collapsed"></i></div>
+                <ul class="movie-list flexer center wrap" v-show="!types[name].collapsed">
                     <li v-for="(content, index) in value"
                     v-if="selectGen(content.genres)"  @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
                     <ul class="movie-details">
