@@ -4,7 +4,6 @@ const DOMAIN = 'https://api.themoviedb.org/3/';
 var app = new Vue({
     el: '#root',
     data: {
-        // API info and "methods"
         movieDBqueries: {
             // TODO sposta in methods
             search: function (type, args) {
@@ -19,29 +18,29 @@ var app = new Vue({
         },
         selectedGen: '',
         queryString: '',
-        resCopy: [],
-        result: {
-            'movies': [],
-            'tv': []
-        },
-        types: {
+        selectedIndex: false,
+
+        kinds: {
             'movies': {
                 name: 'FILM',
-                genres: [],
-                collapsed: false,
                 queryStr: 'movie',
-                searchResult: []
+                genres: [],
+
+                collapsed: false,
             },
             'tv': {
                 name: 'SERIE TV',
-                genres: [],
-                collapsed: false,
                 queryStr: 'tv',
-                searchResult: []
+                genres: [],
+
+                collapsed: false,
             }
         },
-
-        selectedIndex: false,
+        printed: {
+            'movies': [],
+            'tv': []
+        },
+        result: {},
         myList: {
             'movies': [],
             'tv': []
@@ -55,19 +54,18 @@ var app = new Vue({
     },
     methods: {
         searchContent(type, string) {
-            axios.get(this.movieDBqueries.search(this.types[type].queryStr, string))
+            axios.get(this.movieDBqueries.search(this.kinds[type].queryStr, string))
                 .then((response) => {
                     const answer = response.data.results;
                     answer.forEach(element => {
-                        console.log(element.id)
-                        axios.get(this.movieDBqueries.byId(this.types[type].queryStr, element.id, '&append_to_response=credits'))
+                        axios.get(this.movieDBqueries.byId(this.kinds[type].queryStr, element.id, '&append_to_response=credits'))
                             .then(cast => {
                                 if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
                                 if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
                             })
                     });
-                    // this.types[type].searchResult = answer;
-                    //#TODO: migrare tutto in types
+                    // this.kinds[type].searchResult = answer;
+                    //#TODO: migrare tutto in kinds
                     this.result[type] = answer;
 
                 });
@@ -79,13 +77,13 @@ var app = new Vue({
                 'tv': []
             },
                 this.selectedGen = '';
-            for (el in this.types) {
-                this.types[el].collapsed = false;
+            for (el in this.kinds) {
+                this.kinds[el].collapsed = false;
             }
             // QUERIES
             this.searchContent('movies', string);
             this.searchContent('tv', string);
-            this.resCopy = this.result;
+            this.printed = this.result;
 
         },
 
@@ -98,6 +96,7 @@ var app = new Vue({
                 return `https://image.tmdb.org/t/p/w342/${content.poster_path}`
             }
             else {
+                // Default background img
                 return 'img/it_IT.webp'
                 // TODO trova immagine di sfondo un po' più bellina
             }
@@ -111,7 +110,6 @@ var app = new Vue({
                 return false
             }
             else {
-
                 return gen.includes(this.selectedGen)
             }
 
@@ -126,9 +124,9 @@ var app = new Vue({
             }
         },
         getGenres(kind) {
-            axios.get(this.movieDBqueries.genres(this.types[kind].queryStr))
+            axios.get(this.movieDBqueries.genres(this.kinds[kind].queryStr))
                 .then(response => {
-                    this.types[kind].genres = response.data.genres.map(item => item.name);
+                    this.kinds[kind].genres = response.data.genres.map(item => item.name);
                 });
         }
 
@@ -137,7 +135,6 @@ var app = new Vue({
         this.getGenres('movies');
         this.getGenres('tv');
         this.searchAll('il sorpasso');
-
     }
 })
 

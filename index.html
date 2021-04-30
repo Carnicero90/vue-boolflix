@@ -27,12 +27,12 @@
             <div class="left-nav flexer center-cross">
                 <img src="img/logo.png" alt="logo" class="logo">
                 <ul class="list-inline flexer wrap">
-                    <li><a href=# @click="result = resCopy">Home</a></li>
+                    <li><a href=# @click="printed = result">Home</a></li>
                     <li><a href=#>Serie TV</a></li>
                     <li><a href=#>Film</a></li>
                     <li><a href=#>Original</a></li>
                     <li><a href=#>Aggiornati di recente</a></li>
-                    <li><a href=# @click="result = myList">La mia lista</a></li>
+                    <li><a href=# @click="printed = myList">La mia lista</a></li>
                 </ul>
             </div>
             <!-- END div.lef-nav -->
@@ -53,11 +53,11 @@
                         <option value="">All</option>
                         <optgroup label="Film">
                             <option value="All" default disabled hidden>Seleziona un genere</option>
-                            <option v-for="gen in types.movies.genres" :value="gen">{{ gen }}</option>
+                            <option v-for="gen in kinds.movies.genres" :value="gen">{{ gen }}</option>
                         </optgroup>
                         <optgroup label="Serie TV">
                             <option value="All" default disabled hidden>Seleziona un genere</option>
-                            <option v-for="gen in types.tv.genres" :value="gen">{{ gen }}</option>
+                            <option v-for="gen in kinds.tv.genres" :value="gen">{{ gen }}</option>
                         </optgroup>
                     </select>
                 </div>
@@ -71,13 +71,13 @@
         <!-- MAIN -->
 
         <main class="flexer col">
-            <div v-for="(value, name) in result" v-if="value.length>0" class="movie-container">
+            <div v-for="(value, name) in printed" v-if="value.length>0" class="movie-container">
                 <div class="sect-header flexer between">
-                    <span>{{types[name].name}}</span>
-                    <i class="fas fa-chevron-down" :class="{'fa-chevron-up': types[name].collapsed}"
-                        @click="types[name].collapsed=!types[name].collapsed"></i>
+                    <span>{{kinds[name].name}}</span>
+                    <i class="fas fa-chevron-down" :class="{'fa-chevron-up': kinds[name].collapsed}"
+                        @click="kinds[name].collapsed=!kinds[name].collapsed"></i>
                 </div>
-                <ul class="movie-list flexer center wrap" v-show="!types[name].collapsed">
+                <ul class="movie-list flexer center wrap" v-show="!kinds[name].collapsed">
                     <li v-for="(content, index) in value" v-if="selectGen(content.genres)"
                         @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
                         <ul class="movie-details">
