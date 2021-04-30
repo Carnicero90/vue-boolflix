@@ -9,13 +9,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
         integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
         crossorigin="anonymous"></script>
+    <!-- font Montserrat -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap"
         rel="stylesheet">
+    <!-- fontawesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <!-- local css stylesheets -->
     <link rel="stylesheet" href="css/my_frame.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>Document</title>
+    <title>Boolfix</title>
 </head>
 
 <body>
@@ -69,17 +72,22 @@
         <!-- END HEADER -->
         <!-- MAIN -->
         <main class="flexer col">
+            <!-- div.movie-container -->
             <div v-for="(value, name) in kinds" class="movie-container" v-if="value.printed.length>0">
+                <!-- div.sect-header -->
                 <div class="sect-header flexer between">
                     <span>{{value.name}}</span>
-
                     <i class="fas fa-chevron-down" :class="{'fa-chevron-up': value.collapsed}"
                         @click="value.collapsed=!value.collapsed"></i>
                 </div>
+                <!-- END div.sect-header -->
+                <!-- ul.movie-list -->
                 <ul class="movie-list flexer center wrap" v-show="!kinds[name].collapsed">
+                    <!-- li.movie -->
                     <li v-for="(content, index) in value.printed" v-if="selectGen(content.genres)"
                         @mouseenter="value.selectedIndex = index" @mouseleave="value.selectedIndex = false"
                         class="movie">
+                        <!-- ul.movie-details -->
                         <ul class="movie-details">
                             <i class="fas fa-heart" @click="addToMyList(content, name)"
                                 :class="{added: value.saved.map((item) => item.id).includes(content.id)}"></i>
@@ -120,13 +128,16 @@
                             </li>
 
                         </ul>
+                        <!-- END ul.movie-details -->
                         <div v-show="value.selectedIndex!==index" class="layover">
                             <img :src="getCover(content)" alt="">
                         </div>
                     </li>
+                    <!-- END li.movie -->
                 </ul>
+                <!-- END ul.movie-list -->
             </div>
-
+            <!-- END div.movie-container -->
         </main>
         <!-- END MAIN -->
     </div>

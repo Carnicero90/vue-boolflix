@@ -30,7 +30,11 @@ var app = new Vue({
 
                 collapsed: false,
                 selectedIndex: false,
-            }
+            },
+            // 'people': {
+            //     name: "PEOPLE",
+            //     queryStr: 'person'
+            // }
         },
         flags: {
             'en': 'us-US.webp',
@@ -100,7 +104,6 @@ var app = new Vue({
                     });
                     this.kinds[type].result = answer;
                     this.kinds[type].printed = answer;
-                    //#TODO: migrare tutto in kinds
                 });
         },
         searchAll(string) {
@@ -138,14 +141,3 @@ var app = new Vue({
         this.searchAll('il sorpasso');
     }
 })
-
-
-
-/*
- * function (detailed!) description
- *
- * @param  || description
- * @param  || description
- *
- * @return || description
-*/
