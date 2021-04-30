@@ -79,7 +79,7 @@
                 </div>
                 <ul class="movie-list flexer center wrap" v-show="!kinds[name].collapsed">
                     <li v-for="(content, index) in value" v-if="selectGen(content.genres)"
-                        @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
+                        @mouseenter="kinds[name].selectedIndex = index" @mouseleave="kinds[name].selectedIndex = false" class="movie">
                         <ul class="movie-details">
                             <i class="fas fa-heart" @click="addToMyList(content, name)"
                             
@@ -121,7 +121,7 @@
                             </li>
 
                         </ul>
-                        <div v-show="selectedIndex!==index" class="layover">
+                        <div v-show="kinds[name].selectedIndex!==index" class="layover">
                             <img :src="getCover(content)" alt="">
                         </div>
                     </li>

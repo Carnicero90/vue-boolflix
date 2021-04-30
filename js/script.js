@@ -6,7 +6,6 @@ var app = new Vue({
     data: {
         selectedGen: '',
         queryString: '',
-        selectedIndex: false,
 
         kinds: {
             'movies': {
@@ -15,6 +14,7 @@ var app = new Vue({
                 genres: [],
 
                 collapsed: false,
+                selectedIndex: false,
             },
             'tv': {
                 name: 'SERIE TV',
@@ -22,13 +22,17 @@ var app = new Vue({
                 genres: [],
 
                 collapsed: false,
+                selectedIndex: false,
             }
         },
         printed: {
             'movies': [],
             'tv': []
         },
-        result: {},
+        result: {
+            'movies': [],
+            'tv': []
+        },
         myList: {
             'movies': [],
             'tv': []
