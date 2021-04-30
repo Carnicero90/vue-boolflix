@@ -50,6 +50,7 @@ var app = new Vue({
         }
     },
     mounted() {
+        this.searchMovies('il sorpasso');
         axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`)
         .then(lastGen => {
             const b = lastGen.data.genres;

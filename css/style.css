@@ -1,15 +1,23 @@
 .left-nav li {
    padding-right: 12px;
+   font-weight: 600;
 }
+
 .left-nav li:hover {
-   color:antiquewhite;
-   /* font-weight: 600; */
+   color: antiquewhite;
    /* transform: scale(1.2); */
+}
+.search input {
+   padding: 5px;
+   margin-left: 3px;
 }
 .search select {
    display: block;
+   margin-top: 8px;
    margin-left: auto;
+   padding: 5px;
 }
+
 .gradient-text {
    background-color: grey;
    margin-left: 50px;
@@ -62,6 +70,7 @@ header .logo {
    ======================= */
 
 .movie-list {
+   padding-top: 30px;
    width: 100%;
 }
 
@@ -103,11 +112,12 @@ header .logo {
    font-size: 1.3rem;
    padding-bottom: 10px;
 }
+
 .movie-details {
    overflow-y: auto;
    max-height: 100%;
-
 }
+
 .movie-details>li {
    padding-top: 15px;
 }
