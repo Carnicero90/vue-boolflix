@@ -27,12 +27,12 @@
             <div class="left-nav flexer center-cross">
                 <img src="img/logo.png" alt="logo" class="logo">
                 <ul class="list-inline flexer wrap">
-                    <li><a href=# @click="printed = result">Home</a></li>
+                    <li><a href=# @click="printHome()">Home</a></li>
                     <li><a href=#>Serie TV</a></li>
                     <li><a href=#>Film</a></li>
                     <li><a href=#>Original</a></li>
                     <li><a href=#>Aggiornati di recente</a></li>
-                    <li><a href=# @click="printed = myList">La mia lista</a></li>
+                    <li><a href=# @click="printSaved()">La mia lista</a></li>
                 </ul>
             </div>
             <!-- END div.lef-nav -->
@@ -67,24 +67,22 @@
             <!-- END div.search -->
         </header>
         <!-- END HEADER -->
-
         <!-- MAIN -->
-
         <main class="flexer col">
-            <div v-for="(value, name) in printed" v-if="value.length>0" class="movie-container">
+            <div v-for="(value, name) in kinds" class="movie-container" v-if="value.result.length>0">
                 <div class="sect-header flexer between">
-                    <span>{{kinds[name].name}}</span>
-                    <i class="fas fa-chevron-down" :class="{'fa-chevron-up': kinds[name].collapsed}"
-                        @click="kinds[name].collapsed=!kinds[name].collapsed"></i>
+                    <span>{{value.name}}</span>
+                    <i class="fas fa-chevron-down" :class="{'fa-chevron-up': value.collapsed}"
+                        @click="value.collapsed=!value.collapsed"></i>
                 </div>
                 <ul class="movie-list flexer center wrap" v-show="!kinds[name].collapsed">
-                    <li v-for="(content, index) in value" v-if="selectGen(content.genres)"
-                        @mouseenter="kinds[name].selectedIndex = index" @mouseleave="kinds[name].selectedIndex = false" class="movie">
+                    <li v-for="(content, index) in value.printed" v-if="selectGen(content.genres)"
+                        @mouseenter="value.selectedIndex = index" @mouseleave="value.selectedIndex = false"
+                        class="movie">
                         <ul class="movie-details">
                             <i class="fas fa-heart" @click="addToMyList(content, name)"
-                            
-                                :class="{added: myList[name].map((item) => item.id).includes(content.id)}"></i>
-                                <!-- Orribile, poi sposta -->
+                                :class="{added: value.saved.map((item) => item.id).includes(content.id)}"></i>
+                            <!-- Orribile, poi sposta -->
                             <li class="title">{{ content.title || content.name }}</li>
                             <li>
                                 <span class="vote"
@@ -121,7 +119,7 @@
                             </li>
 
                         </ul>
-                        <div v-show="kinds[name].selectedIndex!==index" class="layover">
+                        <div v-show="value.selectedIndex!==index" class="layover">
                             <img :src="getCover(content)" alt="">
                         </div>
                     </li>

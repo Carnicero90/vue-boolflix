@@ -6,12 +6,15 @@ var app = new Vue({
     data: {
         selectedGen: '',
         queryString: '',
-
         kinds: {
             'movies': {
                 name: 'FILM',
                 queryStr: 'movie',
                 genres: [],
+
+                printed: [],
+                result: [],
+                saved: [],
 
                 collapsed: false,
                 selectedIndex: false,
@@ -21,21 +24,13 @@ var app = new Vue({
                 queryStr: 'tv',
                 genres: [],
 
+                printed: [],
+                result: [],
+                saved: [],
+
                 collapsed: false,
                 selectedIndex: false,
             }
-        },
-        printed: {
-            'movies': [],
-            'tv': []
-        },
-        result: {
-            'movies': [],
-            'tv': []
-        },
-        myList: {
-            'movies': [],
-            'tv': []
         },
         flags: {
             'en': 'us-US.webp',
@@ -45,6 +40,16 @@ var app = new Vue({
 
     },
     methods: {
+        printSaved() {
+            for (item in this.kinds) {
+                this.kinds[item].printed = this.kinds[item].saved;
+            }
+        },
+        printHome() {
+            for (item in this.kinds) {
+                this.kinds[item].printed = this.kinds[item].result;
+            }
+        },
 
         getFlag(lang) {
             return this.flags[lang] || this.flags['default']
@@ -73,12 +78,12 @@ var app = new Vue({
 
         },
         addToMyList(item, kind) {
-            const ids = this.myList[kind].map((item) => item.id);
+            const ids = this.kinds[kind].saved.map((item => item.id));
 
             if (!ids.includes(item.id)) {
-                this.myList[kind].push(item);
+                this.kinds[kind].saved.push(item);
             } else {
-                this.myList[kind].splice(this.myList[kind].indexOf(item), 1)
+                this.kinds[kind].saved.splice(this.kinds[kind].saved.indexOf(item), 1);
             }
         },
         // API call functions
@@ -93,24 +98,24 @@ var app = new Vue({
                                 if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
                             })
                     });
-                    // this.kinds[type].searchResult = answer;
+                    this.kinds[type].result = answer;
+                    this.kinds[type].printed = answer;
                     //#TODO: migrare tutto in kinds
-                    this.result[type] = answer;
                 });
         },
         searchAll(string) {
             // RESETS
-            this.result = {
-                'movies': [],
-                'tv': []
-            },
-                this.selectedGen = '';
+            // this.result = {
+            //     'movies': [],
+            //     'tv': []
+            // },
+            this.selectedGen = '';
             for (el in this.kinds) {
+                this.kinds[el].selectedIndex = false;
                 this.kinds[el].collapsed = false;
+                this.searchContent(el, string);
             }
-            // QUERIES
-            this.searchContent('movies', string);
-            this.searchContent('tv', string);
+
             this.printed = this.result;
 
         },
@@ -134,8 +139,9 @@ var app = new Vue({
 
     },
     mounted() {
-        this.getGenres('movies');
-        this.getGenres('tv');
+        for (item in this.kinds) {
+            this.getGenres(item);
+        }
         this.searchAll('il sorpasso');
     }
 })
