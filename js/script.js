@@ -39,7 +39,6 @@ var app = new Vue({
         flags: {
             'en': 'us-US.webp',
             'it': 'it_IT.webp',
-            'default': 'Flag_of_Genoa.svg.png'
         },
 
     },
@@ -52,20 +51,6 @@ var app = new Vue({
         printHome() {
             for (item in this.kinds) {
                 this.kinds[item].printed = this.kinds[item].result;
-            }
-        },
-
-        getFlag(lang) {
-            return this.flags[lang] || this.flags['default']
-        },
-        getCover(content) {
-            if (content.poster_path) {
-                return `https://image.tmdb.org/t/p/w342/${content.poster_path}`
-            }
-            else {
-                // Default background img
-                return 'img/it_IT.webp'
-                // TODO trova immagine di sfondo un po' più bellina
             }
         },
         selectGen(gen) {
@@ -92,6 +77,7 @@ var app = new Vue({
         },
         // API call functions
         searchContent(type, string) {
+            if (!string.trim()) {return}
             axios.get(this.search(this.kinds[type].queryStr, string))
                 .then((response) => {
                     const answer = response.data.results;
@@ -138,6 +124,6 @@ var app = new Vue({
         for (item in this.kinds) {
             this.getGenres(item);
         }
-        this.searchAll('il sorpasso');
+        this.searchAll('un prophete');
     }
 })

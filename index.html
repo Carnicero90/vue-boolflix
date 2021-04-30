@@ -23,9 +23,9 @@
 
 <body>
     <!-- VUE CONTAINER -->
-    <div id="root">
+    <div id="root" class="flexer col">
         <!-- HEADER -->
-        <header class="flexer between center-cross">
+        <header class="flexer between center-cross no-shrink">
             <!-- div.left-nav -->
             <div class="left-nav flexer center-cross">
                 <img src="img/logo.png" alt="logo" class="logo">
@@ -71,73 +71,84 @@
         </header>
         <!-- END HEADER -->
         <!-- MAIN -->
-        <main class="flexer col">
-            <!-- div.movie-container -->
-            <div v-for="(value, name) in kinds" class="movie-container" v-if="value.printed.length>0">
-                <!-- div.sect-header -->
-                <div class="sect-header flexer between">
-                    <span>{{value.name}}</span>
-                    <i class="fas fa-chevron-down" :class="{'fa-chevron-up': value.collapsed}"
-                        @click="value.collapsed=!value.collapsed"></i>
-                </div>
-                <!-- END div.sect-header -->
-                <!-- ul.movie-list -->
-                <ul class="movie-list flexer center wrap" v-show="!kinds[name].collapsed">
-                    <!-- li.movie -->
-                    <li v-for="(content, index) in value.printed" v-if="selectGen(content.genres)"
-                        @mouseenter="value.selectedIndex = index" @mouseleave="value.selectedIndex = false"
-                        class="movie">
-                        <!-- ul.movie-details -->
-                        <ul class="movie-details">
-                            <i class="fas fa-heart" @click="addToMyList(content, name)"
-                                :class="{added: value.saved.map((item) => item.id).includes(content.id)}"></i>
-                            <!-- Orribile, poi sposta -->
-                            <li class="title">{{ content.title || content.name }}</li>
-                            <li>
-                                <span class="vote"
-                                    :style="{  backgroundImage: `linear-gradient(to right, #dad61b ${content.vote_average*10}%, #fdfdfd ${(1-content.vote_average)*10}%)` }">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </span>
-                                {{content.vote_average}}
-                            </li>
-                            <li>
-                                <h3>Cast</h3>
-                                <ul>
-                                    <li v-for="actor in content.cast">{{ actor.name }}</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <h3>Genere</h3>
-                                <ul>
-                                    <li v-for="genre in content.genres">{{ genre }}</li>
-                                </ul>
-                            </li>
-                            <li>
-                                <h4>Titolo Originale</h4>
-                                <div class="flexer between">
-                                    <span>
-                                        {{ content.original_title || content.original_name }}
+        <main class="flexer col" v-cloak>
+            <div v-if="kinds.movies.printed.length || kinds.tv.printed.length">
+                <!-- div.movie-container -->
+                <div v-for="(value, name) in kinds" class="movie-container" v-if="value.printed.length">
+                    <!-- div.sect-header -->
+                    <div class="sect-header flexer between">
+                        <span>{{value.name}}</span>
+                        <i class="fas fa-chevron-down" :class="{'fa-chevron-up': value.collapsed}"
+                            @click="value.collapsed=!value.collapsed"></i>
+                    </div>
+                    <!-- END div.sect-header -->
+                    <!-- ul.movie-list -->
+                    <ul class="movie-list list-inline flexer" v-show="!kinds[name].collapsed">
+                        <!-- li.movie -->
+                        <li v-for="(content, index) in value.printed" v-if="selectGen(content.genres)"
+                            @mouseenter="value.selectedIndex = index" @mouseleave="value.selectedIndex = false"
+                            class="movie no-shrink">
+                            <!-- ul.movie-details -->
+                            <ul class="movie-details">
+                                <i class="fas fa-heart" @click="addToMyList(content, name)"
+                                    :class="{added: value.saved.map((item) => item.id).includes(content.id)}"></i>
+                                <!-- Orribile, poi sposta -->
+                                <li class="title">{{ content.title || content.name }}</li>
+                                <li>
+                                    <span class="vote"
+                                        :style="{  backgroundImage: `linear-gradient(to right, #dad61b ${content.vote_average*10}%, #fdfdfd ${(1-content.vote_average)*10}%)` }">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
                                     </span>
-                                    <img class="flag" :src=`img/${getFlag(content.original_language)}` alt="">
+                                    {{content.vote_average}}
+                                </li>
+                                <li>
+                                    <h3>Cast</h3>
+                                    <ul>
+                                        <li v-for="actor in content.cast">{{ actor.name }}</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h3>Genere</h3>
+                                    <ul>
+                                        <li v-for="genre in content.genres">{{ genre }}</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h4>Titolo Originale</h4>
+                                    <div class="flexer between">
+                                        <span>
+                                            {{ content.original_title || content.original_name }}
+                                        </span>
+                                        <img class="flag" v-if="flags[content.original_language]" :src=`img/${flags[content.original_language]}` alt="">
+                                        <img class="flag" v-else src="img/Flag_of_Genoa.svg.png" alt="">
+                                    </div>
+                                </li>
 
+                            </ul>
+                            <!-- END ul.movie-details -->
+                            <div v-show="value.selectedIndex!==index" class="layover">
+                                <div class="inner">
+                                    <img v-if="content.poster_path":src=`https://image.tmdb.org/t/p/w342/${content.poster_path}` alt="">
+                                    <img v-else src="img/it_IT.webp" alt="">
+                                    <div class="layover-title"
+                                    v-if="!content.poster_path">
+                                        {{ content.title || content.name }}
+                                    </div>
                                 </div>
-                            </li>
 
-                        </ul>
-                        <!-- END ul.movie-details -->
-                        <div v-show="value.selectedIndex!==index" class="layover">
-                            <img :src="getCover(content)" alt="">
-                        </div>
-                    </li>
-                    <!-- END li.movie -->
-                </ul>
-                <!-- END ul.movie-list -->
+                            </div>
+                        </li>
+                        <!-- END li.movie -->
+                    </ul>
+                    <!-- END ul.movie-list -->
+                </div>
+                <!-- END div.movie-container -->
             </div>
-            <!-- END div.movie-container -->
+            <div class="empty" v-else class="text-center">No contenuti</div>
         </main>
         <!-- END MAIN -->
     </div>

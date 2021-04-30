@@ -120,7 +120,7 @@ img {
 /* MISC
    ======================= */
 
-.list-inline li {
+.list-inline>li {
     /* questo poi sarebbe da rivedere perché potrebbe 
     darmi problemi di gerarchia */
     display: inline-block;
