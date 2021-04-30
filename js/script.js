@@ -6,6 +6,7 @@ var app = new Vue({
     data: {
         // API info and "methods"
         movieDBqueries: {
+            // TODO sposta in methods
             search: function (type, args) {
                 return `${DOMAIN}search/${type}?api_key=${API_KEY}&query=${args}`
             },
@@ -91,6 +92,15 @@ var app = new Vue({
 
         getFlag(lang) {
             return this.flags[lang] || this.flags['default']
+        },
+        getCover(content) {
+            if(content.poster_path) {
+                return `https://image.tmdb.org/t/p/w342/${content.poster_path}`
+            }
+            else {
+                return 'img/it_IT.webp'
+                // TODO trova immagine di sfondo un po' più bellina
+            }
         },
         selectGen(gen) {
 

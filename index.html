@@ -122,7 +122,7 @@
 
                         </ul>
                         <div v-show="selectedIndex!==index" class="layover">
-                            <img :src=`https://image.tmdb.org/t/p/w342/${content.poster_path}` alt="">
+                            <img :src="getCover(content)" alt="">
                         </div>
                     </li>
                 </ul>
