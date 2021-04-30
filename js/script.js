@@ -77,7 +77,7 @@ var app = new Vue({
             for (el in this.types) {
                 this.types[el].collapsed = false;
             }
-            // SEARCHES
+            // QUERIES
             this.searchContent('movies', string);
             this.searchContent('tv', string);
             this.resCopy = {...this.result};

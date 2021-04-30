@@ -23,7 +23,7 @@
     <div id="root">
         <!-- HEADER -->
         <header class="flexer between center-cross">
-            <!-- div.logo -->
+            <!-- div.left-nav -->
             <div class="left-nav flexer center-cross">
                 <img src="img/logo.png" alt="logo" class="logo">
                 <ul class="list-inline flexer wrap">
@@ -35,31 +35,34 @@
                     <li><a href=# @click="result = myList">La mia lista</a></li>
                 </ul>
             </div>
-
-            <!-- END div.logo -->
+            <!-- END div.lef-nav -->
 
             <!-- div.search -->
             <div class="search text-right">
-                <div>
+                <!-- div.search-input -->
+                <div class="search-input">
                     <label for="search-movies"> <i class="fas fa-search"></i>Cerca</label>
-                    <input id="search-movies" v-model="queryString" @keyup.enter="searchAll(queryString)"
-                        type="text" placeholder="cerca">
-
+                    <input id="search-movies" v-model="queryString" @keyup.enter="searchAll(queryString)" type="text"
+                        placeholder="cerca">
                 </div>
+                <!-- END div.search-input -->
+                <!-- div.search-select -->
+                <div class="search-select">
+                    <label for="select-gen">Seleziona un genere</label>
+                    <select name="select-gen" id="selected-gen" aria-label="seleziona un genere" v-model="selectedGen">
+                        <option value="">All</option>
+                        <optgroup label="Film">
+                            <option value="All" default disabled hidden>Seleziona un genere</option>
+                            <option v-for="gen in types.movies.genres" :value="gen">{{ gen }}</option>
+                        </optgroup>
+                        <optgroup label="Serie TV">
+                            <option value="All" default disabled hidden>Seleziona un genere</option>
+                            <option v-for="gen in types.tv.genres" :value="gen">{{ gen }}</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <!-- END div.search-input -->
 
-                <label for="select-gen">Seleziona un genere</label>
-                <select name="select-gen" id="selected-gen" aria-label="seleziona un genere" v-model="selectedGen">
-                    <option value="">All</option>
-                    <optgroup label="Film">
-                        <option value="All" default disabled hidden>Seleziona un genere</option>
-                        <option v-for="gen in types.movies.genres" :value="gen">{{ gen }}</option>
-                    </optgroup>
-                    <optgroup label="Serie TV">
-                        <option value="All" default disabled hidden>Seleziona un genere</option>
-                        <option v-for="gen in types.tv.genres" :value="gen">{{ gen }}</option>
-                    </optgroup>
-
-                </select>
             </div>
             <!-- END div.search -->
         </header>
@@ -68,60 +71,58 @@
         <!-- MAIN -->
 
         <main class="flexer col">
-            <div v-for="(value, name) in result" v-if="value.length>0">
+            <div v-for="(value, name) in result" v-if="value.length>0" class="movie-container">
                 <div class="sect-header flexer between">
                     <span>{{types[name].name}}</span>
-                    <i class="fas fa-chevron-down" 
-                    :class="{'fa-chevron-up': types[name].collapsed}"
-                    @click="types[name].collapsed=!types[name].collapsed"
-                    ></i>
+                    <i class="fas fa-chevron-down" :class="{'fa-chevron-up': types[name].collapsed}"
+                        @click="types[name].collapsed=!types[name].collapsed"></i>
                 </div>
                 <ul class="movie-list flexer center wrap" v-show="!types[name].collapsed">
-                    <li v-for="(content, index) in value"
-                    v-if="selectGen(content.genres)"  @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
-                    <ul class="movie-details">
-                        <i class="fas fa-heart" @click="addToMyList(content, name)"
-                        :class="{added: myList[name].includes(content)}"></i>
-                        <li class="title">{{ content.title || content.name }}</li>
-                        <li>
-                            <span class="gradient-text"
-                                :style="{  backgroundImage: `linear-gradient(to right, #dad61b ${content.vote_average*10}%, #fdfdfd ${(1-content.vote_average)*10}%)` }">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </span>
-                            {{content.vote_average}}
-                        </li>
-                        <li>
-                            <h3>Cast</h3>
-                            <ul>
-                                <li v-for="actor in content.cast">{{ actor.name }}</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h3>Genere</h3>
-                            <ul>
-                                <li v-for="genre in content.genres">{{ genre }}</li>
-                            </ul>
-                        </li>
-                        <li>
-                            <h4>Titolo Originale</h4>
-                            <div class="flexer between">
-                                <span>
-                                    {{ content.original_title || content.original_name }}
+                    <li v-for="(content, index) in value" v-if="selectGen(content.genres)"
+                        @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
+                        <ul class="movie-details">
+                            <i class="fas fa-heart" @click="addToMyList(content, name)"
+                                :class="{added: myList[name].includes(content)}"></i>
+                            <li class="title">{{ content.title || content.name }}</li>
+                            <li>
+                                <span class="vote"
+                                    :style="{  backgroundImage: `linear-gradient(to right, #dad61b ${content.vote_average*10}%, #fdfdfd ${(1-content.vote_average)*10}%)` }">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </span>
-                                <img class="flag" :src=`img/${getFlag(content.original_language)}` alt="">
+                                {{content.vote_average}}
+                            </li>
+                            <li>
+                                <h3>Cast</h3>
+                                <ul>
+                                    <li v-for="actor in content.cast">{{ actor.name }}</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h3>Genere</h3>
+                                <ul>
+                                    <li v-for="genre in content.genres">{{ genre }}</li>
+                                </ul>
+                            </li>
+                            <li>
+                                <h4>Titolo Originale</h4>
+                                <div class="flexer between">
+                                    <span>
+                                        {{ content.original_title || content.original_name }}
+                                    </span>
+                                    <img class="flag" :src=`img/${getFlag(content.original_language)}` alt="">
 
-                            </div>
-                        </li>
+                                </div>
+                            </li>
 
-                    </ul>
-                    <div v-show="selectedIndex!==index" class="layover">
-                        <img :src=`https://image.tmdb.org/t/p/w342/${content.poster_path}` alt="">
-                    </div>               
-                </li>
+                        </ul>
+                        <div v-show="selectedIndex!==index" class="layover">
+                            <img :src=`https://image.tmdb.org/t/p/w342/${content.poster_path}` alt="">
+                        </div>
+                    </li>
                 </ul>
             </div>
 

@@ -1,51 +1,3 @@
-.left-nav li {
-   padding-right: 12px;
-   font-weight: 600;
-}
-.sect-header {
-   background: rgb(71, 71, 71);
-   font-size: 1.3rem;
-   font-weight: 600;
-   padding: 10px 5%;
-   color: white;
-   text-transform: uppercase;
-   border-bottom: 1px solid lightgray;
-}
-
-.left-nav li:hover {
-   color: antiquewhite;
-   /* transform: scale(1.2); */
-}
-.search input {
-   padding: 5px;
-}
-.search label {
-   margin-top: 8px;
-   display: block;
-}
-.search select {
-   display: block;
-   margin-left: auto;
-   padding: 5px;
-}
-
-.added {
-   color: red;
-}
-
-.gradient-text {
-   background-color: grey;
-   margin-left: 50px;
-   /* background: linear-gradient(to right, #dad61b 60%, #fdfdfd 40%); */
-   -webkit-background-clip: text;
-   background-clip: text;
-   -webkit-text-fill-color: transparent;
-   -moz-background-clip: text;
-   -moz-text-fill-color: transparent;
-   background-size: 100%;
-   /* #TODO devo ancora aggiungere robe di vendor prefix */
-}
-
 /* COMMON
    ======================= */
 
@@ -63,18 +15,44 @@ body {
 header {
    background-color: black;
    color: white;
-   /* TEST */
    padding: 15px;
 }
 
-/*    * logo
+/*    * left-nav
       -------------------- */
 
-header .logo {
-   color: red;
-   font-size: 1.3rem;
-   font-weight: 600;
+.left-nav .logo {
    padding-right: 15px;
+}
+
+.left-nav li {
+   padding-right: 12px;
+   font-weight: 600;
+}
+
+.left-nav li:hover {
+   color: antiquewhite;
+   /* transform: scale(1.2); */
+}
+
+/*    -------------------- */
+
+/*    * search
+      -------------------- */
+
+.search label {
+   margin-top: 8px;
+   display: block;
+}
+
+.search input {
+   padding: 5px;
+}
+
+.search select {
+   display: block;
+   margin-left: auto;
+   padding: 5px;
 }
 
 /*    -------------------- */
@@ -83,6 +61,19 @@ header .logo {
 
 /* MAIN
    ======================= */
+
+/*    * movie-container
+      -------------------- */
+
+.sect-header {
+   background: rgb(71, 71, 71);
+   font-size: 1.3rem;
+   font-weight: 600;
+   padding: 10px 5%;
+   color: white;
+   text-transform: uppercase;
+   border-bottom: 1px solid lightgray;
+}
 
 .movie-list {
    padding-top: 30px;
@@ -120,7 +111,9 @@ header .logo {
    height: 100%;
    width: 100%;
 }
-
+.added {
+   color: red;
+}
 .movie .title {
    text-align: center;
    font-weight: bolder;
@@ -145,8 +138,18 @@ header .logo {
 }
 
 .vote {
-   color: rgb(240, 208, 69);
+   background-color: grey;
+   margin-left: 50px;
+   -webkit-background-clip: text;
+   background-clip: text;
+   -webkit-text-fill-color: transparent;
+   -moz-background-clip: text;
+   -moz-text-fill-color: transparent;
+   background-size: 100%;
+   /* #TODO devo ancora aggiungere robe di vendor prefix */
 }
+
+/*    -------------------- */
 
 /* ======================= */
 
