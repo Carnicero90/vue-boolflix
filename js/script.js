@@ -12,8 +12,8 @@ var app = new Vue({
             genres: function (type) {
                 return `${DOMAIN}genre/${type}/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`
             },
-            byId: function (id, args) {
-                return `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}${args}`
+            byId: function (type, id, args) {
+                return `https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}${args}`
             },
         },
         selectedGen: '',
@@ -41,8 +41,6 @@ var app = new Vue({
         },
 
         selectedIndex: false,
-        movieGenres: [],
-        tvGenres: [],
         myList: {
             'movies': [],
             'tv': []
@@ -60,7 +58,8 @@ var app = new Vue({
                 .then((response) => {
                     const answer = response.data.results;
                     answer.forEach(element => {
-                        axios.get(this.movieDBqueries.byId(element.id, '&append_to_response=credits'))
+                        console.log(element.id)
+                        axios.get(this.movieDBqueries.byId(this.types[type].queryStr, element.id, '&append_to_response=credits'))
                             .then(cast => {
                                 if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
                                 if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
