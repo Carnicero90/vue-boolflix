@@ -30,7 +30,7 @@ var app = new Vue({
                this.result.forEach(element => {
                    axios.get(`https://api.themoviedb.org/3/movie/${element.id}?api_key=${API_KEY}&append_to_response=credits`)
                    .then(cast => {
-                       if(cast.data.credits.cast) {element.cast = cast.data.credits.cast.slice(0,5)};
+                       if(cast.data.credits.cast) {element.cast = cast.data.credits.cast.slice(0,5)}
                         if (cast.data.genres) {element.genres = cast.data.genres.map(item => item.name)}
                     })
                });
@@ -52,7 +52,7 @@ var app = new Vue({
     mounted() {
         axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`)
         .then(lastGen => {
-            b = lastGen.data.genres;
+            const b = lastGen.data.genres;
             // versione pigra, che prende tutti i generi e non quelli presenti solo nei film selezionati (quindi da rifare)
             this.genres = b.map(item => item.name)})
      }
