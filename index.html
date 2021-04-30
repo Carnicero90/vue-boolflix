@@ -69,9 +69,10 @@
         <!-- END HEADER -->
         <!-- MAIN -->
         <main class="flexer col">
-            <div v-for="(value, name) in kinds" class="movie-container" v-if="value.result.length>0">
+            <div v-for="(value, name) in kinds" class="movie-container" v-if="value.printed.length>0">
                 <div class="sect-header flexer between">
                     <span>{{value.name}}</span>
+
                     <i class="fas fa-chevron-down" :class="{'fa-chevron-up': value.collapsed}"
                         @click="value.collapsed=!value.collapsed"></i>
                 </div>

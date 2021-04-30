@@ -104,19 +104,12 @@ var app = new Vue({
                 });
         },
         searchAll(string) {
-            // RESETS
-            // this.result = {
-            //     'movies': [],
-            //     'tv': []
-            // },
             this.selectedGen = '';
             for (el in this.kinds) {
                 this.kinds[el].selectedIndex = false;
                 this.kinds[el].collapsed = false;
                 this.searchContent(el, string);
             }
-
-            this.printed = this.result;
 
         },
         getGenres(kind) {
