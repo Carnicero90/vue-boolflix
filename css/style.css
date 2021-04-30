@@ -2,6 +2,14 @@
    padding-right: 12px;
    font-weight: 600;
 }
+.sect-header {
+   background: rgb(71, 71, 71);
+   font-size: 1.3rem;
+   font-weight: 600;
+   padding: 10px 5%;
+   color: white;
+   text-transform: uppercase;
+}
 
 .left-nav li:hover {
    color: antiquewhite;
@@ -9,11 +17,13 @@
 }
 .search input {
    padding: 5px;
-   margin-left: 3px;
+}
+.search label {
+   margin-top: 8px;
+   display: block;
 }
 .search select {
    display: block;
-   margin-top: 8px;
    margin-left: auto;
    padding: 5px;
 }
