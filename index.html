@@ -82,7 +82,9 @@
                         @mouseenter="selectedIndex = index" @mouseleave="selectedIndex = false" class="movie">
                         <ul class="movie-details">
                             <i class="fas fa-heart" @click="addToMyList(content, name)"
-                                :class="{added: myList[name].includes(content)}"></i>
+                            
+                                :class="{added: myList[name].map((item) => item.id).includes(content.id)}"></i>
+                                <!-- Orribile, poi sposta -->
                             <li class="title">{{ content.title || content.name }}</li>
                             <li>
                                 <span class="vote"

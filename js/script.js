@@ -12,8 +12,9 @@ var app = new Vue({
             genres: function (type) {
                 return `${DOMAIN}genre/${type}/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`
             },
-            byId: function (id, args) { 
-                return `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}${args}`},
+            byId: function (id, args) {
+                return `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}${args}`
+            },
         },
         selectedGen: '',
         queryString: '',
@@ -38,7 +39,7 @@ var app = new Vue({
                 searchResult: []
             }
         },
-      
+
         selectedIndex: false,
         movieGenres: [],
         tvGenres: [],
@@ -56,31 +57,36 @@ var app = new Vue({
     methods: {
         searchContent(type, string) {
             axios.get(this.movieDBqueries.search(this.types[type].queryStr, string))
-            .then((response) => {
-                const answer = response.data.results;
-                answer.forEach(element => {
-                    axios.get(this.movieDBqueries.byId(element.id, '&append_to_response=credits'))
-                        .then(cast => {
-                            if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
-                            if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
-                        })
-                });
-                // this.types[type].searchResult = answer;
-                //#TODO: migrare tutto in types
-                this.result[type] = answer;
+                .then((response) => {
+                    const answer = response.data.results;
+                    answer.forEach(element => {
+                        axios.get(this.movieDBqueries.byId(element.id, '&append_to_response=credits'))
+                            .then(cast => {
+                                if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
+                                if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
+                            })
+                    });
+                    // this.types[type].searchResult = answer;
+                    //#TODO: migrare tutto in types
+                    this.result[type] = answer;
 
-            });      
+                });
         },
         searchAll(string) {
             // RESETS
-            this.selectedGen = '';
+            this.result = {
+                'movies': [],
+                'tv': []
+            },
+                this.selectedGen = '';
             for (el in this.types) {
                 this.types[el].collapsed = false;
             }
             // QUERIES
             this.searchContent('movies', string);
             this.searchContent('tv', string);
-            this.resCopy = {...this.result};
+            this.resCopy = this.result;
+
         },
 
 
@@ -88,7 +94,7 @@ var app = new Vue({
             return this.flags[lang] || this.flags['default']
         },
         selectGen(gen) {
-            
+
             if (this.selectedGen == "") {
                 return true
             }
@@ -102,9 +108,10 @@ var app = new Vue({
 
         },
         addToMyList(item, kind) {
-            if (!this.myList[kind].includes(item)) {
+            const ids = this.myList[kind].map((item) => item.id);
+
+            if (!ids.includes(item.id)) {
                 this.myList[kind].push(item);
-                this.result[kind]
             } else {
                 this.myList[kind].splice(this.myList[kind].indexOf(item), 1)
             }
