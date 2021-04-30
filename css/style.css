@@ -1,8 +1,21 @@
+.left-nav li {
+   padding-right: 12px;
+}
+.left-nav li:hover {
+   color:antiquewhite;
+   /* font-weight: 600; */
+   /* transform: scale(1.2); */
+}
+.search select {
+   display: block;
+   margin-left: auto;
+}
 .gradient-text {
    background-color: grey;
    margin-left: 50px;
    /* background: linear-gradient(to right, #dad61b 60%, #fdfdfd 40%); */
    -webkit-background-clip: text;
+   background-clip: text;
    -webkit-text-fill-color: transparent;
    -moz-background-clip: text;
    -moz-text-fill-color: transparent;
@@ -38,6 +51,7 @@ header .logo {
    color: red;
    font-size: 1.3rem;
    font-weight: 600;
+   padding-right: 15px;
 }
 
 /*    -------------------- */

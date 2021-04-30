@@ -24,18 +24,27 @@
         <!-- HEADER -->
         <header class="flexer between center-cross">
             <!-- div.logo -->
-            <div class="logo">
-
-                <span>BOOLFIX</span>
+            <div class="left-nav flexer center-cross">
+                <img src="img/logo.png" alt="logo" class="logo">
+                <ul class="list-inline flexer wrap">
+                    <li><a href=#>Home</a></li>
+                    <li><a href=#>Serie TV</a></li>
+                    <li><a href=#>Film</a></li>
+                    <li><a href=#>Original</a></li>
+                    <li><a href=#>Aggiornati di recente</a></li>
+                    <li><a href=#>La mia lista</a></li>
+                </ul>
             </div>
 
             <!-- END div.logo -->
+        
             <!-- div.search -->
-            <div class="search">
-                <input v-model="queryString" @keyup.enter="searchMovies(queryString)" type="text">
+            <div class="search text-right">
                 <button>
                     <i class="fas fa-search"></i>
                 </button>
+                <input v-model="queryString" @keyup.enter="searchMovies(queryString)" type="text">
+                
                 <select name="" id="" v-model="selectedGen">
                     <option v-for="gen in genres" :value="gen">{{ gen }}</option>
                 </select>
@@ -51,7 +60,7 @@
 
         <main class="flexer">
 
-            <ul class="movie-list flexer wrap center" v-if="result">
+            <ul class="movie-list flexer wrap center" v-if="result.length > 0">
                 <li v-for="(item, index) in result" v-if="selectGen(item.genres)" @mouseenter="selectedIndex = index"
                     @mouseleave="selectedIndex = false" class="movie">
                     <ul class="movie-details">
@@ -97,6 +106,7 @@
                     </div>
                 </li>
             </ul>
+            <div v-else>no res</div>
         </main>
         <!-- END MAIN -->
     </div>
