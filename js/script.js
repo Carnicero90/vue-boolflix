@@ -72,7 +72,12 @@ var app = new Vue({
             });      
         },
         searchAll(string) {
+            // RESETS
             this.selectedGen = '';
+            for (el in this.types) {
+                this.types[el].collapsed = false;
+            }
+            // SEARCHES
             this.searchContent('movies', string);
             this.searchContent('tv', string);
             this.resCopy = {...this.result};
@@ -83,10 +88,15 @@ var app = new Vue({
             return this.flags[lang] || this.flags['default']
         },
         selectGen(gen) {
+            
             if (this.selectedGen == "") {
                 return true
             }
+            else if (!gen) {
+                return false
+            }
             else {
+
                 return gen.includes(this.selectedGen)
             }
 
@@ -108,9 +118,9 @@ var app = new Vue({
 
     },
     mounted() {
-        this.searchAll('il sorpasso');
         this.getGenres('movies');
         this.getGenres('tv');
+        this.searchAll('il sorpasso');
 
     }
 })
