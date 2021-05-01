@@ -30,12 +30,12 @@
             <div class="left-nav flexer center-cross">
                 <img src="img/logo.png" alt="logo" class="logo">
                 <ul class="list-inline flexer wrap">
-                    <li><a href=# @click="printHome()">Home</a></li>
+                    <li><a href=# @click="inMyList = false">Home</a></li>
                     <li><a href=#>Serie TV</a></li>
                     <li><a href=#>Film</a></li>
                     <li><a href=#>Original</a></li>
                     <li><a href=#>Aggiornati di recente</a></li>
-                    <li><a href=# @click="printSaved()">La mia lista</a></li>
+                    <li><a href=# @click="inMyList = true">La mia lista</a></li>
                 </ul>
             </div>
             <!-- END div.lef-nav -->
@@ -72,9 +72,9 @@
         <!-- END HEADER -->
         <!-- MAIN -->
         <main class="flexer col" v-cloak>
-            <div v-if="kinds.movies.printed.length || kinds.tv.printed.length">
+
                 <!-- div.movie-container -->
-                <div v-for="(value, name) in kinds" class="movie-container" v-if="value.printed.length">
+                <div v-for="(value, name) in kinds" class="movie-container" v-if="(!inMyList ? value.result.length : value.saved.length)">
                     <!-- div.sect-header -->
                     <div class="sect-header flexer between">
                         <span>{{value.name}}</span>
@@ -85,7 +85,7 @@
                     <!-- ul.movie-list -->
                     <ul class="movie-list list-inline flexer" v-show="!kinds[name].collapsed">
                         <!-- li.movie -->
-                        <li v-for="(content, index) in value.printed" v-if="selectGen(content.genres)"
+                        <li v-for="(content, index) in (!inMyList ? value.result : value.saved)" v-if="selectGen(content.genres)"
                             @mouseenter="value.selectedIndex = index" @mouseleave="value.selectedIndex = false"
                             class="movie no-shrink">
                             <!-- ul.movie-details -->
@@ -96,7 +96,7 @@
                                 <li class="title">{{ content.title || content.name }}</li>
                                 <li>
                                     <span class="vote"
-                                        :style="{  backgroundImage: `linear-gradient(to right, #dad61b ${content.vote_average*10}%, #fdfdfd ${(1-content.vote_average)*10}%)` }">
+                                        :style="{  backgroundImage: `linear-gradient(to right, #dad61b ${content.vote_average*10}%, #fdfdfd ${(content.vote_average)*10}%)` }">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -147,8 +147,7 @@
                     <!-- END ul.movie-list -->
                 </div>
                 <!-- END div.movie-container -->
-            </div>
-            <div class="empty" v-else class="text-center">No contenuti</div>
+            <!-- <div class="empty" v-else class="text-center">No contenuti</div> -->
         </main>
         <!-- END MAIN -->
     </div>

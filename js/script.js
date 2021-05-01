@@ -4,6 +4,8 @@ const DOMAIN = 'https://api.themoviedb.org/3/';
 var app = new Vue({
     el: '#root',
     data: {
+        // loaded: false,
+        inMyList: false,
         selectedGen: '',
         queryString: '',
         kinds: {
@@ -12,7 +14,6 @@ var app = new Vue({
                 queryStr: 'movie',
                 genres: [],
 
-                printed: [],
                 result: [],
                 saved: [],
 
@@ -24,7 +25,6 @@ var app = new Vue({
                 queryStr: 'tv',
                 genres: [],
 
-                printed: [],
                 result: [],
                 saved: [],
 
@@ -43,16 +43,6 @@ var app = new Vue({
 
     },
     methods: {
-        printSaved() {
-            for (item in this.kinds) {
-                this.kinds[item].printed = this.kinds[item].saved;
-            }
-        },
-        printHome() {
-            for (item in this.kinds) {
-                this.kinds[item].printed = this.kinds[item].result;
-            }
-        },
         selectGen(gen) {
 
             if (this.selectedGen == "") {
@@ -89,11 +79,11 @@ var app = new Vue({
                             })
                     });
                     this.kinds[type].result = answer;
-                    this.kinds[type].printed = answer;
                 });
         },
         searchAll(string) {
             this.selectedGen = '';
+            this.inMyList = false;
             for (el in this.kinds) {
                 this.kinds[el].selectedIndex = false;
                 this.kinds[el].collapsed = false;
@@ -125,5 +115,6 @@ var app = new Vue({
             this.getGenres(item);
         }
         this.searchAll('un prophete');
+        // this.loaded = this.kinds.movies.result.length  > 0 || this.kinds.tv.result.length > 0
     }
 })
