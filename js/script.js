@@ -3,8 +3,8 @@ const DOMAIN = 'https://api.themoviedb.org/3/';
 
 var app = new Vue({
     el: '#root',
+    // DATA
     data: {
-        // loaded: false,
         inMyList: false,
         selectedGen: '',
         queryString: '',
@@ -30,11 +30,7 @@ var app = new Vue({
 
                 collapsed: false,
                 selectedIndex: false,
-            },
-            // 'people': {
-            //     name: "PEOPLE",
-            //     queryStr: 'person'
-            // }
+            }
         },
         flags: {
             'en': 'us-US.webp',
@@ -42,6 +38,14 @@ var app = new Vue({
         },
 
     },
+    // COMPUTED
+    computed: {
+        loaded() {
+            if (this.inMyList) {return this.kinds.movies.saved.length  > 0 || this.kinds.tv.saved.length > 0}
+            return this.kinds.movies.result.length  > 0 || this.kinds.tv.result.length > 0
+        }
+    },
+    // METHODS
     methods: {
         selectGen(gen) {
 
@@ -56,13 +60,13 @@ var app = new Vue({
             }
 
         },
-        addToMyList(item, kind) {
-            const ids = this.kinds[kind].saved.map((item => item.id));
+        addToMyList(newItem, kind) {
+            const newItemInList = this.kinds[kind].saved.some((savedItem => savedItem.id == newItem.id));
 
-            if (!ids.includes(item.id)) {
-                this.kinds[kind].saved.push(item);
+            if (!newItemInList) {
+                this.kinds[kind].saved.push(newItem);
             } else {
-                this.kinds[kind].saved.splice(this.kinds[kind].saved.indexOf(item), 1);
+                this.kinds[kind].saved.splice(this.kinds[kind].saved.indexOf(newItem), 1);
             }
         },
         // API call functions
@@ -110,11 +114,11 @@ var app = new Vue({
         },
 
     },
+    // MOUNTED
     mounted() {
-        for (item in this.kinds) {
-            this.getGenres(item);
+        for (kind in this.kinds) {
+            this.getGenres(kind);
         }
         this.searchAll('un prophete');
-        // this.loaded = this.kinds.movies.result.length  > 0 || this.kinds.tv.result.length > 0
     }
 })

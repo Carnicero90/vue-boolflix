@@ -72,7 +72,7 @@
         <!-- END HEADER -->
         <!-- MAIN -->
         <main class="flexer col" v-cloak>
-
+            <div v-if="loaded">
                 <!-- div.movie-container -->
                 <div v-for="(value, name) in kinds" class="movie-container" v-if="(!inMyList ? value.result.length : value.saved.length)">
                     <!-- div.sect-header -->
@@ -146,8 +146,13 @@
                     </ul>
                     <!-- END ul.movie-list -->
                 </div>
+            </div>
                 <!-- END div.movie-container -->
-            <!-- <div class="empty" v-else class="text-center">No contenuti</div> -->
+            <div class="empty" v-cloak v-else class="text-center">
+                <span v-if="inMyList">La tua lista è vuota!</span>
+                <span v-else>Nessun risultato</span>
+
+            </div>
         </main>
         <!-- END MAIN -->
     </div>
