@@ -1,14 +1,4 @@
-.movie-details {
-   display: none
-}
-.movie:hover .movie-details {
-   display: block;
-}
-.movie:hover .layover {
-   display: none;
-}
-
-/* TODO un qualche word-break in .movie-details, spostare height da #root */
+/* TODO spostare height da #root */
 /* COMMON
    ======================= */
 
@@ -101,7 +91,6 @@ main {
 
 .movie-list {
    overflow-x: auto;
-   white-space: nowrap;
    padding-top: 30px;
    width: 100%;
 }
@@ -112,29 +101,18 @@ main {
 .movie {
    background-color: rgb(32, 31, 31);
    color: white;
-   padding: 10px;
    margin-right: 20px;
    width: 250px;
    margin-bottom: 20px;
-   position: relative;
-   height: 400px;
+   height: 372px;
    border: 2px solid white;
-   white-space: normal;
 }
 
 .movie .layover {
-   overflow-y: hidden;
-   position: absolute;
+   position: relative;
    height: 100%;
    width: 100%;
-   top: 0;
-   left: 0;
    border: 1px solid white;
-}
-
-.movie .layover .inner {
-   height: 100%;
-   position: relative;
 }
 
 .movie .layover-title {
@@ -147,7 +125,12 @@ main {
    font-weight: 600;
    font-size: 1.3rem;
 }
-
+.movie:hover .movie-details {
+   display: block;
+}
+.movie:hover .layover {
+   display: none;
+}
 .movie .layover img {
    height: 100%;
    width: 100%;
@@ -158,13 +141,14 @@ main {
 }
 
 .movie .title {
-   text-align: center;
    font-weight: bolder;
    font-size: 1.3rem;
    padding-bottom: 10px;
 }
 
 .movie-details {
+   display: none;
+   padding: 10px;
    overflow-y: auto;
    max-height: 100%;
 }

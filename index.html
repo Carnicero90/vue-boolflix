@@ -85,7 +85,7 @@
                     </div>
                     <!-- END div.sect-header -->
                     <!-- ul.movie-list -->
-                    <ul class="movie-list list-inline flexer" v-show="!kinds[name].collapsed">
+                    <ul class="movie-list flexer" v-show="!kinds[name].collapsed">
                         <!-- li.movie -->
                         <li v-for="(content, index) in (!inMyList ? value.result : value.saved)"
                             v-if="selectGen(content.genres)" class="movie no-shrink">
@@ -94,7 +94,7 @@
                                 <i class="fas fa-heart" @click="addToMyList(content, name)"
                                     :class="{added: value.saved.map((item) => item.id).includes(content.id)}"></i>
                                 <!-- Orribile, poi sposta -->
-                                <li class="title">{{ content.title || content.name }}</li>
+                                <li class="title text-center">{{ content.title || content.name }}</li>
                                 <li>
                                     <span class="vote"
                                         :style="{  backgroundImage: `linear-gradient(to right, #dad61b ${content.vote_average*10}%, #fdfdfd ${(content.vote_average)*10}%)` }">
@@ -133,8 +133,7 @@
                             </ul>
                             <!-- END ul.movie-details -->
                             <!-- div.layover -->
-                            <div v-show="value.selectedIndex!==index" class="layover">
-                                <div class="inner">
+                            <div class="layover">
                                     <!-- se presente poster_path, mostra immagine presente al corrispettivo url;
                                     se non presente, mostra immagine di default e titolo del contenuto -->
                                     <img v-if="content.poster_path"
@@ -143,7 +142,6 @@
                                     <div class="layover-title" v-if="!content.poster_path">
                                         {{ content.title || content.name }}
                                     </div>
-                                </div>
                             </div>
                             <!-- END div.layover -->
 

@@ -40,6 +40,7 @@ var app = new Vue({
     // COMPUTED
     computed: {
         notEmpty() {
+            // Verifica vi siano elementi da stampare a pagina, ritorna un booleano
             if (this.inMyList) {return this.kinds.movies.saved.length  > 0 || this.kinds.tv.saved.length > 0}
             return this.kinds.movies.result.length  > 0 || this.kinds.tv.result.length > 0
         }
