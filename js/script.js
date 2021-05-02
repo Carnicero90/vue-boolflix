@@ -71,7 +71,7 @@ var app = new Vue({
         // API call functions
         searchContent(type, string) {
             if (!string.trim()) {return}
-            axios.get(this.search(this.kinds[type].queryStr, string))
+            axios.get(this.apiSearchContent(this.kinds[type].queryStr, string))
                 .then((response) => {
                     const answer = response.data.results;
                     answer.forEach(element => {
@@ -79,7 +79,7 @@ var app = new Vue({
                         // e salvali come proprietà dell'elemento (in un array)
                         element.cast = [];
                         element.genres = [];
-                        axios.get(this.byId(this.kinds[type].queryStr, element.id, '&append_to_response=credits'))
+                         axios.get(this.apiSearchContentByID(this.kinds[type].queryStr, element.id, '&append_to_response=credits'))
                             .then(cast => {
                                 if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
                                 if (cast.data.genres) { element.genres = cast.data.genres.map(item => item.name) }
@@ -102,20 +102,20 @@ var app = new Vue({
             /* ricerca tutti i generi di una determinata categoria ($kind) presenti su $DOMAIN, salvandoli in 
             $kinds[kind]
             */
-            axios.get(this.genres(this.kinds[kind].queryStr))
+            axios.get(this.apiSearchGenres(this.kinds[kind].queryStr))
                 .then(response => {
                     this.kinds[kind].genres = response.data.genres.map(item => item.name);
                 });
         },
         // API query strings
         // TODO: rinomina
-        search(type, args) {
+        apiSearchContent(type, args) {
             return `${DOMAIN}search/${type}?api_key=${API_KEY}&query=${args}`
         },
-        genres(type) {
+        apiSearchGenres(type) {
             return `${DOMAIN}genre/${type}/list?api_key=e987c9b3ef365c98fc145ab54f1b9e46&language=en-US`
         },
-        byId(type, id, args) {
+        apiSearchContentByID(type, id, args) {
             return `${DOMAIN}${type}/${id}?api_key=${API_KEY}${args}`
         },
 

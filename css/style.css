@@ -44,7 +44,9 @@ header {
    color: antiquewhite;
    /* transform: scale(1.2); */
 }
-
+.left-nav a:focus {
+   color: red;
+}
 /*    -------------------- */
 
 /*    * search
@@ -192,12 +194,26 @@ main {
 
 /* ======================= */
 
-/* TEMPLATE
+/* QUERIES
       ======================= */
 
-/*    * stuff
+/*    * width  < 600px
          -------------------- */
-
+@media screen and (max-width: 599px) {
+   header, .left-nav {
+      flex-direction: column;
+   }
+   .logo  {
+      max-width: 300px;
+   }
+   .search {
+      display: flex;
+      text-align: left;
+   }
+   .search input {
+      margin-right: 20px;
+   }
+}
 /*    -------------------- */
 
 /* ======================= */
