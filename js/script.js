@@ -7,7 +7,7 @@ var app = new Vue({
     data: {
         inMyList: false,
         selectedGen: '',
-        queryString: '',
+        queryString: 'un prophete',
         kinds: {
             'movies': {
                 name: 'FILM',
@@ -71,6 +71,7 @@ var app = new Vue({
         // API call functions
         searchContent(type, string) {
             if (!string.trim()) {return}
+            this.inMyList = false;
             axios.get(this.apiSearchContent(this.kinds[type].queryStr, string))
                 .then((response) => {
                     const answer = response.data.results;
@@ -88,9 +89,14 @@ var app = new Vue({
                     this.kinds[type].result = answer;
                 });
         },
+        searchOnly(type, string) {
+            for (el in this.kinds) {
+                this.kinds[el].result = []; 
+            }
+            this.searchContent(type, string);
+        },
         searchAll(string) {
             this.selectedGen = '';
-            this.inMyList = false;
             for (el in this.kinds) {
                 this.kinds[el].selectedIndex = false;
                 this.kinds[el].collapsed = false;
@@ -125,7 +131,7 @@ var app = new Vue({
         for (kind in this.kinds) {
             this.getGenresOf(kind);
         }
-        this.searchAll('un prophete');
+        this.searchAll(this.queryString);
     },
 
 })

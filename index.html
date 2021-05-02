@@ -31,11 +31,11 @@
             <div class="left-nav flexer center-cross">
                 <img src="img/logo.png" alt="logo" class="logo">
                 <ul class="list-inline flexer wrap">
-                    <li><a href=# @click="inMyList = false">Home</a></li>
-                    <li><a href=#>Serie TV</a></li>
-                    <li><a href=#>Film</a></li>
-                    <li><a href=#>Original</a></li>
-                    <li><a href=#>Aggiornati di recente</a></li>
+                    <li><a href=# @click="searchAll(queryString)">Home</a></li>
+                    <li><a href=# @click="searchOnly('tv', 'netflix')">Serie TV</a></li>
+                    <li><a href=# @click="searchOnly('movies', 'netflix')">Film</a></li>
+                    <li><a href=# @click="searchAll('netflix')">Original</a></li>
+                    <li><a href=# @click="searchAll('amazon prime')">Aggiornati di recente</a></li>
                     <li><a href=# @click="inMyList = true">La mia lista</a></li>
                 </ul>
             </div>
