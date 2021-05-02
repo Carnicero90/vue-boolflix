@@ -23,6 +23,7 @@
 
 <body>
     <!-- VUE CONTAINER -->
+
     <div id="root" class="flexer col">
         <!-- HEADER -->
         <header class="flexer between center-cross no-shrink">
@@ -72,9 +73,10 @@
         <!-- END HEADER -->
         <!-- MAIN -->
         <main class="flexer col" v-cloak>
-            <div v-if="loaded">
+            <div v-if="notEmpty">
                 <!-- div.movie-container -->
-                <div v-for="(value, name) in kinds" class="movie-container" v-if="(!inMyList ? value.result.length : value.saved.length)">
+                <div v-for="(value, name) in kinds" class="movie-container"
+                    v-if="(!inMyList ? value.result.length : value.saved.length)">
                     <!-- div.sect-header -->
                     <div class="sect-header flexer between">
                         <span>{{value.name}}</span>
@@ -85,9 +87,8 @@
                     <!-- ul.movie-list -->
                     <ul class="movie-list list-inline flexer" v-show="!kinds[name].collapsed">
                         <!-- li.movie -->
-                        <li v-for="(content, index) in (!inMyList ? value.result : value.saved)" v-if="selectGen(content.genres)"
-                            @mouseenter="value.selectedIndex = index" @mouseleave="value.selectedIndex = false"
-                            class="movie no-shrink">
+                        <li v-for="(content, index) in (!inMyList ? value.result : value.saved)"
+                            v-if="selectGen(content.genres)" class="movie no-shrink">
                             <!-- ul.movie-details -->
                             <ul class="movie-details">
                                 <i class="fas fa-heart" @click="addToMyList(content, name)"
@@ -123,36 +124,42 @@
                                         <span>
                                             {{ content.original_title || content.original_name }}
                                         </span>
-                                        <img class="flag" v-if="flags[content.original_language]" :src=`img/${flags[content.original_language]}` alt="">
+                                        <img class="flag" v-if="flags[content.original_language]"
+                                            :src=`img/${flags[content.original_language]}` alt="">
                                         <img class="flag" v-else src="img/Flag_of_Genoa.svg.png" alt="">
                                     </div>
                                 </li>
 
                             </ul>
                             <!-- END ul.movie-details -->
+                            <!-- div.layover -->
                             <div v-show="value.selectedIndex!==index" class="layover">
                                 <div class="inner">
-                                    <img v-if="content.poster_path":src=`https://image.tmdb.org/t/p/w342/${content.poster_path}` alt="">
+                                    <!-- se presente poster_path, mostra immagine presente al corrispettivo url;
+                                    se non presente, mostra immagine di default e titolo del contenuto -->
+                                    <img v-if="content.poster_path"
+                                        :src=`https://image.tmdb.org/t/p/w342/${content.poster_path}` alt="">
                                     <img v-else src="img/it_IT.webp" alt="">
-                                    <div class="layover-title"
-                                    v-if="!content.poster_path">
+                                    <div class="layover-title" v-if="!content.poster_path">
                                         {{ content.title || content.name }}
                                     </div>
                                 </div>
-
                             </div>
+                            <!-- END div.layover -->
+
                         </li>
                         <!-- END li.movie -->
                     </ul>
                     <!-- END ul.movie-list -->
                 </div>
             </div>
-                <!-- END div.movie-container -->
+            <!-- END div.movie-container -->
+            <!-- div.empty -->
             <div class="empty" v-cloak v-else class="text-center">
                 <span v-if="inMyList">La tua lista è vuota!</span>
                 <span v-else>Nessun risultato</span>
-
             </div>
+            <!-- END div.empty -->
         </main>
         <!-- END MAIN -->
     </div>

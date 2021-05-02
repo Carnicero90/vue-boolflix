@@ -1,3 +1,13 @@
+.movie-details {
+   display: none
+}
+.movie:hover .movie-details {
+   display: block;
+}
+.movie:hover .layover {
+   display: none;
+}
+
 /* TODO un qualche word-break in .movie-details, spostare height da #root */
 /* COMMON
    ======================= */

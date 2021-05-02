@@ -17,8 +17,7 @@ var app = new Vue({
                 result: [],
                 saved: [],
 
-                collapsed: false,
-                selectedIndex: false,
+                collapsed: false
             },
             'tv': {
                 name: 'SERIE TV',
@@ -29,18 +28,18 @@ var app = new Vue({
                 saved: [],
 
                 collapsed: false,
-                selectedIndex: false,
             }
         },
+        //neanche necessario tenerle qua, non so se piuttosto rinominare le immagini e bon (come per boolzapp)
         flags: {
             'en': 'us-US.webp',
-            'it': 'it_IT.webp',
+            'it': 'it_IT.webp', 
         },
 
     },
     // COMPUTED
     computed: {
-        loaded() {
+        notEmpty() {
             if (this.inMyList) {return this.kinds.movies.saved.length  > 0 || this.kinds.tv.saved.length > 0}
             return this.kinds.movies.result.length  > 0 || this.kinds.tv.result.length > 0
         }
@@ -48,12 +47,8 @@ var app = new Vue({
     // METHODS
     methods: {
         selectGen(gen) {
-
             if (this.selectedGen == "") {
                 return true
-            }
-            else if (!gen) {
-                return false
             }
             else {
                 return gen.includes(this.selectedGen)
@@ -61,6 +56,9 @@ var app = new Vue({
 
         },
         addToMyList(newItem, kind) {
+            /* Verifica che l'ID del film su cui si è cliccato ($newItem) sia presente tra gli elementi
+            salvati in $kinds: se presente, viene rimosso, se assente, viene aggiunto.
+            */
             const newItemInList = this.kinds[kind].saved.some((savedItem => savedItem.id == newItem.id));
 
             if (!newItemInList) {
@@ -76,6 +74,10 @@ var app = new Vue({
                 .then((response) => {
                     const answer = response.data.results;
                     answer.forEach(element => {
+                        // per ogni elemento, fai una ricerca per ID su $DOMAIN: estrai cast e generi (se presenti),
+                        // e salvali come proprietà dell'elemento (in un array)
+                        element.cast = [];
+                        element.genres = [];
                         axios.get(this.byId(this.kinds[type].queryStr, element.id, '&append_to_response=credits'))
                             .then(cast => {
                                 if (cast.data.credits.cast) { element.cast = cast.data.credits.cast.slice(0, 5) }
@@ -95,7 +97,10 @@ var app = new Vue({
             }
 
         },
-        getGenres(kind) {
+        getGenresOf(kind) {
+            /* ricerca tutti i generi di una determinata categoria ($kind) presenti su $DOMAIN, salvandoli in 
+            $kinds[kind]
+            */
             axios.get(this.genres(this.kinds[kind].queryStr))
                 .then(response => {
                     this.kinds[kind].genres = response.data.genres.map(item => item.name);
@@ -117,8 +122,9 @@ var app = new Vue({
     // MOUNTED
     mounted() {
         for (kind in this.kinds) {
-            this.getGenres(kind);
+            this.getGenresOf(kind);
         }
         this.searchAll('un prophete');
-    }
+    },
+
 })
