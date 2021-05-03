@@ -24,7 +24,7 @@
 <body>
     <!-- VUE CONTAINER -->
 
-    <div id="root" class="flexer col">
+    <div id="root" class=" main-container flexer col">
         <!-- HEADER -->
         <header class="flexer between center-cross no-shrink">
             <!-- div.left-nav -->
@@ -93,7 +93,6 @@
                             <ul class="movie-details">
                                 <i class="fas fa-heart" @click="addToMyList(content, name)"
                                     :class="{added: value.saved.map((item) => item.id).includes(content.id)}"></i>
-                                <!-- Orribile, poi sposta -->
                                 <li class="title text-center">{{ content.title || content.name }}</li>
                                 <li>
                                     <span class="vote"

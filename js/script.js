@@ -7,6 +7,7 @@ var app = new Vue({
     data: {
         inMyList: false,
         selectedGen: '',
+        inputString: '',
         queryString: 'un prophete',
         kinds: {
             'movies': {
@@ -30,7 +31,6 @@ var app = new Vue({
                 collapsed: false,
             }
         },
-        //neanche necessario tenerle qua, non so se piuttosto rinominare le immagini e bon (come per boolzapp)
         flags: {
             'en': 'us-US.webp',
             'it': 'it_IT.webp', 
@@ -114,7 +114,6 @@ var app = new Vue({
                 });
         },
         // API query strings
-        // TODO: rinomina
         apiSearchContent(type, args) {
             return `${DOMAIN}search/${type}?api_key=${API_KEY}&query=${args}`
         },
